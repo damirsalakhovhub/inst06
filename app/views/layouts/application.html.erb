@@ -23,7 +23,38 @@
   </head>
 
   <body>
-    <main class="container mx-auto mt-28 px-5 flex">
+    <% if user_signed_in? %>
+      <nav class="bg-base-200 border-b border-base-300">
+        <div class="container mx-auto px-5 py-4">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-4">
+              <%= link_to "Instantum", root_path, class: "text-xl font-bold" %>
+              <% if current_organization %>
+                <span class="text-base-content/70">•</span>
+                <span class="text-base-content/80"><%= current_organization.name %></span>
+              <% end %>
+            </div>
+            <div class="flex items-center gap-4">
+              <%= link_to "Projects", projects_path, class: "btn btn-ghost btn-sm" %>
+              <%= link_to "Team", memberships_path, class: "btn btn-ghost btn-sm" %>
+              <%= button_to "Sign out", destroy_user_session_path, method: :delete, class: "btn btn-ghost btn-sm" %>
+            </div>
+          </div>
+        </div>
+      </nav>
+    <% end %>
+
+    <% if flash.any? %>
+      <div class="container mx-auto px-5 pt-4">
+        <% flash.each do |type, message| %>
+          <div class="alert alert-<%= type == 'notice' ? 'success' : 'error' %> mb-4">
+            <span><%= message %></span>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+
+    <main class="container mx-auto px-5 py-8">
       <%= yield %>
     </main>
   </body>

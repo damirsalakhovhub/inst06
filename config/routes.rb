@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   root "home#index"
 
   resources :organizations, only: [] do
-    post :switch, on: :collection
+    post :switch, on: :collection, as: :switch
   end
 
   resources :projects do

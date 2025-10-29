@@ -1,4 +1,74 @@
-<div>
-  <h1 class="font-bold text-4xl">Home#index</h1>
-  <p>Find me in app/views/home/index.html.erb</p>
+<div class="max-w-4xl mx-auto">
+  <h1 class="text-3xl font-bold mb-8">Welcome back, <%= current_user.email %></h1>
+
+  <% if @organizations.any? %>
+    <div class="mb-8">
+      <h2 class="text-xl font-semibold mb-4">Organizations</h2>
+      <% if @organizations.count > 1 %>
+        <div class="flex flex-wrap gap-2">
+          <% @organizations.each do |org| %>
+            <% if org == current_organization %>
+              <div class="badge badge-primary badge-lg"><%= org.name %></div>
+            <% else %>
+              <%= button_to org.name, switch_organizations_path, method: :post, params: { id: org.id }, class: "badge badge-outline badge-lg hover:badge-primary cursor-pointer" %>
+            <% end %>
+          <% end %>
+        </div>
+      <% else %>
+        <div class="badge badge-primary badge-lg"><%= current_organization.name %></div>
+      <% end %>
+    </div>
+  <% end %>
+
+  <% if current_organization %>
+    <div class="mb-8">
+      <div class="flex items-center justify-between mb-4">
+        <h2 class="text-xl font-semibold">Recent Projects</h2>
+        <%= link_to "New Project", new_project_path, class: "btn btn-primary" %>
+      </div>
+
+      <% if @projects.any? %>
+        <div class="space-y-3">
+          <% @projects.each do |project| %>
+            <div class="card bg-base-100 border border-base-300">
+              <div class="card-body py-4">
+                <div class="flex items-center justify-between">
+                  <div>
+                    <%= link_to project.name, project_path(project), class: "text-lg font-semibold hover:underline" %>
+                    <% if project.description.present? %>
+                      <p class="text-sm text-base-content/70 mt-1"><%= truncate(project.description, length: 100) %></p>
+                    <% end %>
+                    <p class="text-xs text-base-content/50 mt-2">
+                      <%= pluralize(project.tasks.count, 'task') %>
+                    </p>
+                  </div>
+                  <div class="flex gap-2">
+                    <%= link_to "View", project_path(project), class: "btn btn-sm btn-ghost" %>
+                    <%= link_to "Tasks", project_tasks_path(project), class: "btn btn-sm btn-ghost" %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+
+        <div class="mt-4">
+          <%= link_to "View all projects", projects_path, class: "btn btn-ghost btn-sm" %>
+        </div>
+      <% else %>
+        <div class="card bg-base-100 border border-base-300">
+          <div class="card-body py-8 text-center">
+            <p class="text-base-content/70 mb-4">No projects yet</p>
+            <%= link_to "Create your first project", new_project_path, class: "btn btn-primary" %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="card bg-base-100 border border-base-300">
+      <div class="card-body py-8 text-center">
+        <p class="text-base-content/70">No organizations available</p>
+      </div>
+    </div>
+  <% end %>
 </div>
