@@ -1,7 +1,7 @@
 class TasksController < ApplicationController
   before_action :authenticate_user!
   before_action :set_project
-  before_action :set_task, only: [:show, :edit, :update, :destroy]
+  before_action :set_task, only: [ :show, :edit, :update, :destroy ]
 
   def index
     @tasks = policy_scope(Task).where(project: @project)
@@ -22,7 +22,7 @@ class TasksController < ApplicationController
     authorize @task
 
     if @task.save
-      redirect_to [@project, @task], notice: "Task was successfully created."
+      redirect_to [ @project, @task ], notice: "Task was successfully created."
     else
       render :new, status: :unprocessable_entity
     end
@@ -35,7 +35,7 @@ class TasksController < ApplicationController
   def update
     authorize @task
     if @task.update(task_params)
-      redirect_to [@project, @task], notice: "Task was successfully updated."
+      redirect_to [ @project, @task ], notice: "Task was successfully updated."
     else
       render :edit, status: :unprocessable_entity
     end

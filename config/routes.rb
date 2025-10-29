@@ -11,7 +11,7 @@ Rails.application.routes.draw do
     resources :tasks
   end
 
-  resources :memberships, only: [:index, :create, :update, :destroy]
+  resources :memberships, only: [ :index, :create, :update, :destroy ]
 
   mount Avo::Engine, at: Avo.configuration.root_path if defined?(Avo)
 

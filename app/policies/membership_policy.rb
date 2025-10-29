@@ -9,13 +9,13 @@ class MembershipPolicy < ApplicationPolicy
 
   def update?
     return false unless owner_or_admin?
-    return false if record.role == 'owner' && !owner?
+    return false if record.role == "owner" && !owner?
     true
   end
 
   def destroy?
     return false unless owner_or_admin?
-    return false if record.role == 'owner'
+    return false if record.role == "owner"
     true
   end
 

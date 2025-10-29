@@ -19,19 +19,19 @@ class ApplicationPolicy
   end
 
   def owner?
-    role == 'owner'
+    role == "owner"
   end
 
   def admin?
-    role == 'admin'
+    role == "admin"
   end
 
   def member?
-    role == 'member'
+    role == "member"
   end
 
   def guest?
-    role == 'guest'
+    role == "guest"
   end
 
   def owner_or_admin?
@@ -68,7 +68,7 @@ class ApplicationPolicy
 
   class Scope
     def initialize(context, scope)
-      @user, @organization = context.is_a?(Array) ? context : [context, nil]
+      @user, @organization = context.is_a?(Array) ? context : [ context, nil ]
       @scope = scope
     end
 

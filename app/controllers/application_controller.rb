@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
   rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
 
   def pundit_user
-    [current_user, current_organization]
+    [ current_user, current_organization ]
   end
 
   private

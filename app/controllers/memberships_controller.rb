@@ -1,6 +1,6 @@
 class MembershipsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_membership, only: [:update, :destroy]
+  before_action :set_membership, only: [ :update, :destroy ]
 
   def index
     @memberships = policy_scope(Membership).where(organization: current_organization)
@@ -9,6 +9,9 @@ class MembershipsController < ApplicationController
   def create
     @membership = Membership.new(membership_params)
     @membership.organization = current_organization
+    # rubocop:disable Rails/StrongParameters
+    @membership.user_id = params[:membership][:user_id] if params[:membership][:user_id].present?
+    # rubocop:enable Rails/StrongParameters
     authorize @membership
 
     if @membership.save
@@ -41,6 +44,6 @@ class MembershipsController < ApplicationController
   end
 
   def membership_params
-    params.require(:membership).permit(:user_id, :role)
+    params.require(:membership).permit(:role)
   end
 end
