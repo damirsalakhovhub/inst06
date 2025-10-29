@@ -10,7 +10,10 @@
             <% if org == current_organization %>
               <div class="badge badge-primary badge-lg"><%= org.name %></div>
             <% else %>
-              <%= button_to org.name, switch_organizations_path, method: :post, params: { id: org.id }, class: "badge badge-outline badge-lg hover:badge-primary cursor-pointer" %>
+              <%= form_with url: switch_organizations_path, method: :post, local: true, class: "inline" do |f| %>
+                <%= hidden_field_tag :id, org.id %>
+                <%= f.submit org.name, class: "badge badge-outline badge-lg hover:badge-primary cursor-pointer border-0 bg-transparent px-3 py-2" %>
+              <% end %>
             <% end %>
           <% end %>
         </div>
